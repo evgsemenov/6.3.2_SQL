@@ -1,4 +1,4 @@
-package Data;
+package data;
 
 import com.github.javafaker.Faker;
 import lombok.Data;
@@ -20,7 +20,7 @@ public class DataGenerator {
     }
 
     public static String getRandomAuthCode(){
-        String authCode = faker.numerify("??????");
+        String authCode = faker.numerify("######");
         return authCode;
     }
 }
