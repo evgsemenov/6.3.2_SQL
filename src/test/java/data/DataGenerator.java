@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import lombok.Data;
 
 import java.util.Locale;
+
 @Data
 
 public class DataGenerator {
@@ -22,5 +23,11 @@ public class DataGenerator {
     public static String getRandomAuthCode(){
         String authCode = faker.numerify("######");
         return authCode;
+    }
+
+    public static String getRandomUserId(){
+//        В идеале получить из таблицы последний созданный ID в расшифрованном виде и прибавить к нему единицу.
+        String userId  = faker.numerify("######");
+        return userId;
     }
 }
