@@ -15,7 +15,6 @@ import static com.codeborne.selenide.Selenide.open;
 
 
 public class InternetBankLoginTest {
-
     String login = "vasya";
     String password = "qwerty123";
 
@@ -32,10 +31,47 @@ public class InternetBankLoginTest {
         $("[id='root']").$("[class='paragraph paragraph_theme_alfa-on-white'")
                 .shouldHave(exactText("Необходимо подтверждение")).shouldBe(visible);
         $("[data-test-id='code']").$("[class='input__control']").
-                setValue(String.valueOf(DatabaseHelper.getAuthCodeByLogin(login)));
+                setValue(DatabaseHelper.getAuthCodeByLogin(login));
         $("[data-test-id='action-verify']").click();
-        $("[data-test-id='dashboard']").shouldHave(exactText("Личный кабинет")).shouldBe(visible);
+        $("[data-test-id='dashboard']").shouldBe(visible).shouldHave(exactText("Личный кабинет"));
     }
+
+    @Test
+    void shouldGetErrorIfWrongAuthCodeSentThreeTimes() throws SQLException {
+        $("[data-test-id='login']").$("[class='input__control']").setValue(login);
+        $("[data-test-id='password']").$("[class='input__control']").setValue(password);
+        $("[data-test-id='action-login']").click();
+        $("[data-test-id='code']").$("[class='input__control']")
+                .setValue(DataGenerator.getRandomAuthCode());
+        $("[data-test-id='action-verify']").click();
+        $("[data-test-id='code']").$("[class='input__control']")
+                .setValue(DataGenerator.getRandomAuthCode());
+        $("[data-test-id='action-verify']").click();
+        $("[data-test-id='code']").$("[class='input__control']")
+                .setValue(DataGenerator.getRandomAuthCode());
+        $("[data-test-id='action-verify']").click();
+        $("[data-test-id='error-notification']").shouldBe(visible).
+                shouldHave(exactText("Ошибка\n" + "Ошибка! Превышено количество попыток ввода кода!"));
+    }
+
+    @Test
+    void shouldReturnToMainPageIfWrongAuthCodeSentThreeTimes() throws SQLException {
+        $("[data-test-id='login']").$("[class='input__control']").setValue(login);
+        $("[data-test-id='password']").$("[class='input__control']").setValue(password);
+        $("[data-test-id='action-login']").click();
+        $("[data-test-id='code']").$("[class='input__control']")
+                .setValue(DataGenerator.getRandomAuthCode());
+        $("[data-test-id='action-verify']").click();
+        $("[data-test-id='code']").$("[class='input__control']")
+                .setValue(DataGenerator.getRandomAuthCode());
+        $("[data-test-id='action-verify']").click();
+        $("[data-test-id='code']").$("[class='input__control']")
+                .setValue(DataGenerator.getRandomAuthCode());
+        $("[data-test-id='action-verify']").click();
+        $("[id='root']").$("[class='paragraph paragraph_theme_alfa-on-white'").shouldBe(visible)
+                .shouldHave(exactText("Мы гарантируем безопасность ваших данных"));
+    }
+
 
     @Test
     void shouldGetErrorIfWrongPassword() {
