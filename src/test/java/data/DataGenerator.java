@@ -4,9 +4,7 @@ import com.github.javafaker.Faker;
 import lombok.Data;
 
 import java.util.Locale;
-
 @Data
-
 public class DataGenerator {
     private static final Faker faker = new Faker(new Locale("en"));
 

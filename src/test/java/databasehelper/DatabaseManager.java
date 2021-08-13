@@ -3,15 +3,12 @@ package databasehelper;
 import data.DataGenerator;
 import lombok.Data;
 import org.apache.commons.dbutils.QueryRunner;
-import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 @Data
-
-public class DatabaseHelper {
+public class DatabaseManager {
 
     public static void createRandomUser() throws SQLException {
         var runner = new QueryRunner();
@@ -34,13 +31,13 @@ public class DatabaseHelper {
     }
 
     public static String getAuthCodeByLogin(String login) throws SQLException {
-         var runner = new QueryRunner();
-         var authSQL = "SELECT code FROM auth_codes WHERE user_id='" + getUserIdByLogin(login) + "' ORDER BY id DESC LIMIT 1;";
-         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "pass");
-         ) {
-             var authResult = runner.query(conn, authSQL, new ScalarHandler<>());
-             String authCode = authResult.toString();
-             return authCode;
+                 var runner = new QueryRunner();
+                 var authSQL = "SELECT code FROM auth_codes WHERE user_id='" + getUserIdByLogin(login) + "' ORDER BY id DESC LIMIT 1;";
+                 try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "pass");
+                 ) {
+                     var authResult = runner.query(conn, authSQL, new ScalarHandler<>());
+                     String authCode = authResult.toString();
+                     return authCode;
          }
      }
 }

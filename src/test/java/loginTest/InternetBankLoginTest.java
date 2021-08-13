@@ -1,9 +1,8 @@
 package loginTest;
 
 import data.DataGenerator;
-import databasehelper.DatabaseHelper;
+import databasehelper.DatabaseManager;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
@@ -12,7 +11,6 @@ import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-
 
 public class InternetBankLoginTest {
     String login = "vasya";
@@ -31,7 +29,7 @@ public class InternetBankLoginTest {
         $("[id='root']").$("[class='paragraph paragraph_theme_alfa-on-white'")
                 .shouldHave(exactText("Необходимо подтверждение")).shouldBe(visible);
         $("[data-test-id='code']").$("[class='input__control']").
-                setValue(DatabaseHelper.getAuthCodeByLogin(login));
+                setValue(DatabaseManager.getAuthCodeByLogin(login));
         $("[data-test-id='action-verify']").click();
         $("[data-test-id='dashboard']").shouldBe(visible).shouldHave(exactText("Личный кабинет"));
     }
