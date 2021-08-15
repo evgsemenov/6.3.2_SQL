@@ -49,7 +49,7 @@ public class DatabaseManager {
                             "TRUNCATE TABLE card_transactions;" +
                             "TRUNCATE TABLE cards;" +
                             "TRUNCATE TABLE users;" +
-                            "SET FOREIGN_KEY_CHECKS = 0;";
+                            "SET FOREIGN_KEY_CHECKS = 1;";
             stmt.executeUpdate(clearSQL);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -28,6 +28,7 @@ public class InternetBankLoginTest {
 
     @Test
     void shouldLoginActiveUserWithAuthCode() throws SQLException {
+        // TODO прокинуть исключение в классе DB-менеджера
         $("[data-test-id='login']").$("[class='input__control']").setValue(UsersInfo.activeUserLogin);
         $("[data-test-id='password']").$("[class='input__control']").setValue(UsersInfo.activeUserPassword);
         $("[data-test-id='action-login']").click();
