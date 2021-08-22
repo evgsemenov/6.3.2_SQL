@@ -1,4 +1,4 @@
-package databasehelper;
+package database;
 
 import data.DataGenerator;
 import org.apache.commons.dbutils.QueryRunner;
@@ -32,13 +32,16 @@ public class DatabaseManager {
 
     public static String getAuthCodeByLogin(String login) throws SQLException {
         var runner = new QueryRunner();
-        var authSQL = "SELECT code FROM auth_codes WHERE user_id='" + getUserIdByLogin(login) + "' ORDER BY id DESC LIMIT 1;";
+        var authSQL = "SELECT code FROM auth_codes WHERE created = (SELECT max(created) FROM auth_codes);";
+        String authCode = null;
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "pass");
         ) {
             var authResult = runner.query(conn, authSQL, new ScalarHandler<>());
-            String authCode = authResult.toString();
-            return authCode;
+            authCode = authResult.toString();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return authCode;
     }
 
     public static void clearDatabase() {
