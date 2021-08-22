@@ -23,17 +23,17 @@ public class LoginPage {
     return new VerificationPage();
   }
 
-  public LoginPage invalidLogin(DataHelper.AuthInfo info) {
+  public LoginPage invalidLogin() {
     loginField.setValue(DataGenerator.getRandomLogin());
-    passwordField.setValue(info.getPassword());
+    passwordField.setValue(DataHelper.getAuthInfo().getPassword());
     loginButton.click();
     errorMessage.shouldBe(visible).shouldHave(exactText("Ошибка\n" +
             "Ошибка! Неверно указан логин или пароль"));
     return new LoginPage();
   }
 
-  public LoginPage invalidPassword(DataHelper.AuthInfo info) {
-    loginField.setValue(info.getLogin());
+  public LoginPage invalidPassword() {
+    loginField.setValue(DataHelper.getAuthInfo().getLogin());
     passwordField.setValue(DataGenerator.getRandomPassword());
     loginButton.click();
     errorMessage.shouldBe(visible).shouldHave(exactText("Ошибка\n" +

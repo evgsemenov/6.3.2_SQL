@@ -5,7 +5,6 @@ import database.DatabaseManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
 import page.LoginPage;
 
 import java.sql.SQLException;
@@ -51,18 +50,16 @@ public class InternetBankLoginTest {
 
     @Test
     void shouldGetErrorIfWrongLogin() {
-        var authInfo = DataHelper.getAuthInfo();
         LoginPage loginPage = new LoginPage();
-        var verificationPage = loginPage.invalidLogin(authInfo);
-        verificationPage.invalidLogin(authInfo);
+        var verificationPage = loginPage.invalidLogin();
+        verificationPage.invalidLogin();
     }
 
     @Test
     void shouldGetErrorIfWrongPassword() {
-        var authInfo = DataHelper.getAuthInfo();
         LoginPage loginPage = new LoginPage();
-        var verificationPage = loginPage.invalidPassword(authInfo);
-        verificationPage.invalidPassword(authInfo);
+        var verificationPage = loginPage.invalidPassword();
+        verificationPage.invalidPassword();
     }
 
     @Test

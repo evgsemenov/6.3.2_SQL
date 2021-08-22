@@ -2,9 +2,7 @@ package data;
 
 import database.DatabaseManager;
 import lombok.Value;
-import org.apache.commons.dbutils.handlers.ScalarHandler;
 
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
