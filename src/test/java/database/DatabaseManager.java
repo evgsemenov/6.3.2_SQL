@@ -30,7 +30,7 @@ public class DatabaseManager {
         }
     }
 
-    public static String getAuthCodeByLogin(String login) throws SQLException {
+    public static String getAuthCodeByLogin(String login) {
         var runner = new QueryRunner();
         var authSQL = "SELECT code FROM auth_codes WHERE created = (SELECT max(created) FROM auth_codes);";
         String authCode = null;
@@ -47,13 +47,16 @@ public class DatabaseManager {
     public static void clearDatabase() {
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "pass");
              Statement stmt = conn.createStatement();) {
-            var clearSQL =  "SET FOREIGN_KEY_CHECKS = 0;" +
-                            "TRUNCATE TABLE auth_codes;" +
-                            "TRUNCATE TABLE card_transactions;" +
-                            "TRUNCATE TABLE cards;" +
-                            "TRUNCATE TABLE users;" +
-                            "SET FOREIGN_KEY_CHECKS = 1;";
-            stmt.executeUpdate(clearSQL);
+            var disableChecks = "SET FOREIGN_KEY_CHECKS = 0;";
+            var truncateAuth = "TRUNCATE TABLE auth_codes;";
+            var truncateTransactions = "TRUNCATE TABLE card_transactions;";
+            var truncateCards = "TRUNCATE TABLE cards;";
+            var truncateUsers = "TRUNCATE TABLE users;";
+            var activateChecks = "SET FOREIGN_KEY_CHECKS = 1;";
+            stmt.executeUpdate(disableChecks);
+            stmt.executeUpdate(truncateUsers);
+            stmt.executeUpdate(truncateCards);
+            stmt.executeUpdate(activateChecks);
         } catch (SQLException e) {
             e.printStackTrace();
         }

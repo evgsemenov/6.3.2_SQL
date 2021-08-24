@@ -13,8 +13,7 @@ import static com.codeborne.selenide.Selenide.open;
 
 public class InternetBankLoginTest {
     @BeforeEach
-    void browserSetup() throws InterruptedException {
-        Thread.sleep(3000);
+    void browserSetup() {
     open("http://localhost:9999");
     }
 
@@ -24,7 +23,7 @@ public class InternetBankLoginTest {
     }
 
     @Test
-    void shouldLoginActiveUserWithAuthCode() throws SQLException {
+    void shouldLoginActiveUserWithAuthCode() {
         var authInfo = DataHelper.getAuthInfo();
         LoginPage loginPage = new LoginPage();
         var verificationPage = loginPage.validLogin(authInfo);

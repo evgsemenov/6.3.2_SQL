@@ -25,7 +25,7 @@ public class DataHelper {
     private String code;
   }
 
-  public static VerificationCode getVerificationCodeFor(AuthInfo authInfo) throws SQLException {
+  public static VerificationCode getVerificationCodeFor(AuthInfo authInfo) {
       return new VerificationCode(DatabaseManager.getAuthCodeByLogin("vasya"));
     }
   }
