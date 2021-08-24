@@ -7,6 +7,8 @@ import data.DataHelper;
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
+import static org.openqa.selenium.Keys.CONTROL;
+import static org.openqa.selenium.Keys.DELETE;
 
 public class VerificationPage {
   private SelenideElement codeField = $("[data-test-id=code] input");
@@ -33,10 +35,8 @@ public class VerificationPage {
   }
 
   public LoginPage invalidVerifyThreeTimes() {
-    codeField.setValue(DataGenerator.getRandomAuthCode());
-    verifyButton.click();
-    codeField.setValue(DataGenerator.getRandomAuthCode());
-    verifyButton.click();
+    invalidVerify();
+    invalidVerify();
     codeField.setValue(DataGenerator.getRandomAuthCode());
     verifyButton.click();
     errorMessage.shouldBe(visible).shouldHave(exactText("Ошибка!\n" +
@@ -45,6 +45,7 @@ public class VerificationPage {
   }
 
   public VerificationPage sendEmptyField() {
+    codeField.sendKeys(CONTROL + "A", DELETE);
     verifyButton.click();
     $("[data-test-id='code']").$("[class='input__sub']").shouldBe(visible).
             shouldHave(exactText("Поле обязательно для заполнения"));

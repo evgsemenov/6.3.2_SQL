@@ -56,6 +56,7 @@ public class DatabaseManager {
             stmt.executeUpdate(disableChecks);
             stmt.executeUpdate(truncateUsers);
             stmt.executeUpdate(truncateCards);
+            stmt.executeUpdate(truncateAuth);
             stmt.executeUpdate(activateChecks);
         } catch (SQLException e) {
             e.printStackTrace();
