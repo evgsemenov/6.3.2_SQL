@@ -3,8 +3,6 @@ package data;
 import database.DatabaseManager;
 import lombok.Value;
 
-import java.sql.SQLException;
-
 
 public class DataHelper {
   private DataHelper() {

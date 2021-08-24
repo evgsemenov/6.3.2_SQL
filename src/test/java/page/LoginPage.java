@@ -1,8 +1,6 @@
 package page;
 
 import com.codeborne.selenide.SelenideElement;
-import data.DataGenerator;
-import data.DataHelper;
 
 import static com.codeborne.selenide.Condition.exactText;
 import static com.codeborne.selenide.Condition.visible;
@@ -23,35 +21,26 @@ public class LoginPage {
     passwordField.sendKeys(CONTROL + "A", DELETE);
   }
 
-  public VerificationPage validLogin(DataHelper.AuthInfo info) {
+  private void fillAuthInfo(String login, String password) {
     clearField();
-    loginField.setValue(info.getLogin());
-    passwordField.setValue(info.getPassword());
+    loginField.setValue(login);
+    passwordField.setValue(password);
     loginButton.click();
+  }
+
+  public VerificationPage validLogin(String login, String password) {
+    fillAuthInfo(login, password);
     return new VerificationPage();
   }
 
-  public LoginPage invalidLogin() {
-    clearField();
-    loginField.setValue(DataGenerator.getRandomLogin());
-    passwordField.setValue(DataHelper.getAuthInfo().getPassword());
-    loginButton.click();
+  public LoginPage invalidLogin(String login, String password) {
+    fillAuthInfo(login, password);
     errorMessage.shouldBe(visible).shouldHave(exactText("Ошибка\n" +
             "Ошибка! Неверно указан логин или пароль"));
     return new LoginPage();
   }
 
-  public LoginPage invalidPassword() {
-    clearField();
-    loginField.setValue(DataHelper.getAuthInfo().getLogin());
-    passwordField.setValue(DataGenerator.getRandomPassword());
-    loginButton.click();
-    errorMessage.shouldBe(visible).shouldHave(exactText("Ошибка\n" +
-            "Ошибка! Неверно указан логин или пароль"));
-    return new LoginPage();
-  }
-
-  public LoginPage emptyFieldsSent() {
+  public LoginPage sendEmptyField() {
     clearField();
     loginButton.click();
     inputSubLogin.shouldBe(visible).shouldHave(exactText("Поле обязательно для заполнения"));

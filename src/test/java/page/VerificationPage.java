@@ -47,8 +47,7 @@ public class VerificationPage {
   public VerificationPage sendEmptyField() {
     codeField.sendKeys(CONTROL + "A", DELETE);
     verifyButton.click();
-    $("[data-test-id='code']").$("[class='input__sub']").shouldBe(visible).
-            shouldHave(exactText("Поле обязательно для заполнения"));
+    input_sub.shouldBe(visible).shouldHave(exactText("Поле обязательно для заполнения"));
     return new VerificationPage();
   }
 }
