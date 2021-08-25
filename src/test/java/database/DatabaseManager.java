@@ -51,7 +51,7 @@ public class DatabaseManager {
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "pass");
         ) {
             var statusResult = runner.query(conn, statusSQL, new ScalarHandler<>());
-            statusSQL = statusResult.toString();
+            status = statusResult.toString().trim();
         } catch (SQLException e) {
             e.printStackTrace();
         }
