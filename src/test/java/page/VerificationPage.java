@@ -26,28 +26,24 @@ public class VerificationPage {
     return new DashboardPage();
   }
 
-  public VerificationPage invalidVerify() {
-    codeField.setValue(DataGenerator.getRandomAuthCode());
+  public void invalidVerify(String authCode) {
+    codeField.setValue(authCode);
     verifyButton.click();
     errorMessage.shouldBe(visible).shouldHave(exactText("Ошибка\n" +
             "Ошибка! Неверно указан код! Попробуйте ещё раз."));
-    return new VerificationPage();
   }
 
-  public LoginPage invalidVerifyThreeTimes() {
-    invalidVerify();
-    invalidVerify();
-    codeField.setValue(DataGenerator.getRandomAuthCode());
+  public LoginPage getBlockMessage (String authCode) {
+    codeField.setValue(authCode);
     verifyButton.click();
     errorMessage.shouldBe(visible).shouldHave(exactText("Ошибка!\n" +
             "Ошибка! Превышено количество попыток ввода кода!"));
     return new LoginPage();
   }
 
-  public VerificationPage sendEmptyField() {
+  public void sendEmptyField() {
     codeField.sendKeys(CONTROL + "A", DELETE);
     verifyButton.click();
     input_sub.shouldBe(visible).shouldHave(exactText("Поле обязательно для заполнения"));
-    return new VerificationPage();
   }
 }

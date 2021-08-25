@@ -44,6 +44,20 @@ public class DatabaseManager {
         return authCode;
     }
 
+    public static String getUserStatusByLogin(String login) {
+        var runner = new QueryRunner();
+        var statusSQL = "SELECT status FROM users WHERE login='" + login + "';";
+        String status = null;
+        try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "pass");
+        ) {
+            var statusResult = runner.query(conn, statusSQL, new ScalarHandler<>());
+            statusSQL = statusResult.toString();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return status;
+    }
+
     public static void clearDatabase() {
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/db", "user", "pass");
              Statement stmt = conn.createStatement();) {

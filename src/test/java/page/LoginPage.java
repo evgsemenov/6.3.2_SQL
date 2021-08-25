@@ -33,18 +33,23 @@ public class LoginPage {
     return new VerificationPage();
   }
 
-  public LoginPage invalidLogin(String login, String password) {
+  public void invalidLogin(String login, String password) {
     fillAuthInfo(login, password);
     errorMessage.shouldBe(visible).shouldHave(exactText("Ошибка\n" +
             "Ошибка! Неверно указан логин или пароль"));
-    return new LoginPage();
   }
 
-  public LoginPage sendEmptyField() {
+  public void getBlockMessage(String login, String password) {
+    fillAuthInfo(login, password);
+    errorMessage.shouldBe(visible).shouldHave(exactText("Ошибка\n" +
+            "Ошибка! Превышено количество попыток авторизации"));
+  }
+
+
+  public void sendEmptyField() {
     clearField();
     loginButton.click();
     inputSubLogin.shouldBe(visible).shouldHave(exactText("Поле обязательно для заполнения"));
     inputSubPassword.shouldBe(visible).shouldHave(exactText("Поле обязательно для заполнения"));
-    return new LoginPage();
   }
 }
